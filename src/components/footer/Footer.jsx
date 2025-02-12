@@ -1,13 +1,14 @@
 import React from "react";
 import "./Footer.css";
 import { assets } from "../../assets/assets";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
     <div className="footer" id="footer">
       <div className="footer-content">
         <div className="footer-content-left">
-          <img className="logo" src={assets.logo} alt="" />
+          <Link to="/"><img className="logo" src={assets.logo} alt="" /></Link>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
             et recusandae vero nesciunt temporibus repudiandae! Ipsum reiciendis
@@ -39,8 +40,8 @@ const Footer = () => {
         <div className="footer-content-right">
           <h2>Get In Touch</h2>
           <ul>
-            <li>+900-5481-1585</li>
-            <li>whitepotato121@gmail.com</li>
+            <li><a href="tel:+90054811585">+900-5481-1585</a></li>
+            <li><a href="mailto:whitepotato121@gmail.com">whitepotato121@gmail.com</a></li>
           </ul>
         </div>
       </div>

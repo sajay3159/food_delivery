@@ -53,10 +53,15 @@
 }
 .navbar-profile {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .navbar-profile:hover .nav-profile-dropdown {
   display: flex;
   flex-direction: column;
+  top: 30px;
+  left: 10px;
   gap: 10px;
   background-color: #fff2ef;
   padding: 12px 25px;
@@ -81,6 +86,13 @@
 }
 .nav-profile-dropdown li:hover {
   color: tomato;
+}
+
+.navbar-user-name {
+  font-size: 16px;
+  color: #49557e;
+  font-weight: 500;
+  padding-right: 10px;
 }
 @media (max-width: 1050px) {
   .navbar .logo {
@@ -121,6 +133,27 @@
 }
 @media (max-width: 750px) {
   .navbar-menu {
+    display: none;
+  }
+  .navbar-profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .navbar-profile:hover .nav-profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    top: 30px;
+    left: -15px;
+    gap: 10px;
+    background-color: #fff2ef;
+    padding: 12px 25px;
+    border: 1px solid tomato;
+    outline: 2px solid white;
+    list-style: none;
+  }
+  .search {
     display: none;
   }
 }

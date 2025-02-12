@@ -6,9 +6,10 @@ export const StoreContext = createContext(null);
 
 const StoreContextProvider = (Props) => {
   const [cartItems, setCartItems] = useState({});
-  const url = "https://food-delivery-backend-hc0l.onrender.com";
+  const url = "http://localhost:4000";
   const [token, setToken] = useState("");
   const [food_list, setFood_List] = useState([])
+  const [userName, setUserName] = useState("");
   const addToCart = async (itemId) => {
     if (!cartItems[itemId]) {
       setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
@@ -66,6 +67,8 @@ const StoreContextProvider = (Props) => {
     url,
     token,
     setToken,
+    userName,
+    setUserName,
   };
 
   return (
