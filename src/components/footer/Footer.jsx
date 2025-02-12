@@ -7,7 +7,7 @@ const Footer = () => {
     <div className="footer" id="footer">
       <div className="footer-content">
         <div className="footer-content-left">
-          <img src={assets.white_potato} alt="" />
+          <img className="logo" src={assets.logo} alt="" />
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
             et recusandae vero nesciunt temporibus repudiandae! Ipsum reiciendis
@@ -15,10 +15,17 @@ const Footer = () => {
             magni quibusdam vitae, ipsa laudantium.
           </p>
           <div className="footer-social-icons">
-            <img src={assets.facebook_icon} alt="" />
-            <img src={assets.twitter_icon} alt="" />
-            <img src={assets.linkedin_icon} alt="" />
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <img src={assets.facebook_icon} alt="Facebook" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <img src={assets.twitter_icon} alt="Twitter" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <img src={assets.linkedin_icon} alt="LinkedIn" />
+            </a>
           </div>
+
         </div>
         <div className="footer-content-center">
           <h2>Company</h2>
