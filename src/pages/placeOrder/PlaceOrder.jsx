@@ -51,6 +51,7 @@ const PlaceOrder = () => {
       if (response.data.success) {
         const { sessions_url } = response.data;
         window.location.replace(sessions_url);
+        navigate("/myOrders")
       } else {
         toast.error("Error placing order. Please try again.");
       }
