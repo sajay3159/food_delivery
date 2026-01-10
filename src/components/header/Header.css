@@ -4,7 +4,9 @@
   background: url("/header_img.png") no-repeat;
   background-size: cover;
   position: relative;
+  border-radius: 20px;
 }
+
 .header-contents {
   position: absolute;
   display: flex;
