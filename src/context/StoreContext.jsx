@@ -1,79 +1,108 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
-// import { food_list } from "../assets/assets";
 
 export const StoreContext = createContext(null);
 
-const StoreContextProvider = (Props) => {
+const StoreContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
-  const url = "https://food-delivery-backend-r6xp.onrender.com";
+  const [food_list, setFood_List] = useState([]);
   const [token, setToken] = useState("");
-  const [food_list, setFood_List] = useState([])
   const [userName, setUserName] = useState("");
+  const url = "http://localhost:4000";
+
   const addToCart = async (itemId) => {
-    if (!cartItems[itemId]) {
-      setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-    } else {
-      setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-    } if (token) {
-      await axios.post(url + "/api/cart/add", { itemId }, { headers: { token } })
+    setCartItems((prev) => ({
+      ...prev,
+      [itemId]: prev[itemId] ? prev[itemId] + 1 : 1,
+    }));
+
+    if (token) {
+      await axios.post(
+        url + "/api/cart/add",
+        { itemId },
+        { headers: { token } }
+      );
     }
   };
 
   const removeFromCart = async (itemId) => {
-    setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    setCartItems((prev) => {
+      const newCount = (prev[itemId] || 0) - 1;
+      return { ...prev, [itemId]: newCount > 0 ? newCount : 0 };
+    });
+
     if (token) {
-      await axios.post(url + "/api/cart/remove", { itemId }, { headers: { token } })
+      await axios.post(
+        url + "/api/cart/remove",
+        { itemId },
+        { headers: { token } }
+      );
     }
   };
 
   const getTotalCartAmount = () => {
-    let totalAmount = 0;
-    for (const item in cartItems) {
-      if (cartItems[item] > 0) {
-        let itemInfo = food_list.find((product) => product._id === item);
-        totalAmount += itemInfo.price * cartItems[item];
+    let total = 0;
+    for (const itemId in cartItems) {
+      if (cartItems[itemId] > 0) {
+        const itemInfo = food_list.find((f) => f._id === itemId);
+        if (!itemInfo) continue; // ✅ SAFETY CHECK
+        total += itemInfo.price * cartItems[itemId];
       }
     }
-    return totalAmount;
+    return total;
   };
 
   const fetchFoodList = async () => {
-    const response = await axios.get(url + "/api/food/list");
-    setFood_List(response.data.data)
-  }
+    try {
+      const res = await axios.get(url + "/api/food/list");
+      setFood_List(res.data.data || []);
+    } catch (err) {
+      console.error("Failed to fetch food list", err);
+    }
+  };
 
   const loadCartData = async (token) => {
-    const response = await axios.post(url + "/api/cart/get", {}, { headers: { token } })
-    setCartItems(response.data.cartData);
-  }
+    try {
+      const res = await axios.post(
+        url + "/api/cart/get",
+        {},
+        { headers: { token } }
+      );
+      setCartItems(res.data.cartData || {});
+    } catch (err) {
+      console.error("Failed to load cart data", err);
+    }
+  };
+
   useEffect(() => {
     async function loadData() {
       await fetchFoodList();
-      if (localStorage.getItem("token")) {
-        setToken(localStorage.getItem("token"));
-        await loadCartData(localStorage.getItem("token"))
+      const localToken = localStorage.getItem("token");
+      if (localToken) {
+        setToken(localToken);
+        await loadCartData(localToken);
       }
     }
     loadData();
   }, []);
-  const contextValue = {
-    food_list,
-    cartItems,
-    setCartItems,
-    addToCart,
-    removeFromCart,
-    getTotalCartAmount,
-    url,
-    token,
-    setToken,
-    userName,
-    setUserName,
-  };
 
   return (
-    <StoreContext.Provider value={contextValue}>
-      {Props.children}
+    <StoreContext.Provider
+      value={{
+        cartItems,
+        setCartItems,
+        food_list,
+        addToCart,
+        removeFromCart,
+        getTotalCartAmount,
+        url,
+        token,
+        setToken,
+        userName,
+        setUserName,
+      }}
+    >
+      {children}
     </StoreContext.Provider>
   );
 };
