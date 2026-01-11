@@ -9,7 +9,6 @@ const StoreContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [userName, setUserName] = useState("");
   const url = import.meta.env.VITE_BACKEND_URL;
-  console.log("Backend URL:", url);
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
