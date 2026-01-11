@@ -8,7 +8,7 @@ const StoreContextProvider = ({ children }) => {
   const [food_list, setFood_List] = useState([]);
   const [token, setToken] = useState("");
   const [userName, setUserName] = useState("");
-  const url = "http://localhost:4000";
+  const url = import.meta.env.VITE_BACKEND_URL;
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
