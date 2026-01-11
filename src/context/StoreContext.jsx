@@ -9,6 +9,7 @@ const StoreContextProvider = ({ children }) => {
   const [token, setToken] = useState("");
   const [userName, setUserName] = useState("");
   const url = import.meta.env.VITE_BACKEND_URL;
+  console.log("Backend URL:", url);
 
   const addToCart = async (itemId) => {
     setCartItems((prev) => ({
@@ -45,7 +46,7 @@ const StoreContextProvider = ({ children }) => {
     for (const itemId in cartItems) {
       if (cartItems[itemId] > 0) {
         const itemInfo = food_list.find((f) => f._id === itemId);
-        if (!itemInfo) continue; // ✅ SAFETY CHECK
+        if (!itemInfo) continue;
         total += itemInfo.price * cartItems[itemId];
       }
     }
